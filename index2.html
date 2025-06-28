@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+	<!-- for optimal display on high DPI devices -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<style>
+		.skin {
+			display: block;
+			z-index: 10;
+		}
+	</style>
+</head>
+
+<!-- the viewer container must have a defined size -->
+<h1 class="skin">my first div is here</h1>
+<div id="viewer" style="width: 100vw; height: 100vh"></div>
+
+<script type="module">
+	import { Viewer } from "@photo-sphere-viewer/core";
+
+	const baseUrl = "/assets/";
+
+	new Viewer({
+		container: "viewer",
+		panorama: baseUrl + "test1.jpg",
+		caption: "Parc national du Mercantour <b>&copy; Damien Sorel</b>",
+		loadingImg: baseUrl + "loader.gif",
+		touchmoveTwoFingers: true,
+		mousewheelCtrlKey: true,
+	});
+</script>

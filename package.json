@@ -1,6 +1,6 @@
 {
+  "type": "module",
   "dependencies": {
-    "@photo-sphere-viewer/core": "^5.13.3",
-    "type": "module"
+    "@photo-sphere-viewer/core": "^5.13.3"
   }
 }

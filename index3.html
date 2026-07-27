@@ -7,23 +7,23 @@
 		<title>Aurora Lakeview Corner</title>
 		<link
 			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.13.3/index.min.css"
+			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.css"
 		/>
 		<link
 			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.13.3/index.min.css"
+			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin/index.min.css"
 		/>
 		<link
 			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/virtual-tour-plugin@5.13.3/index.min.css"
+			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/virtual-tour-plugin/index.min.css"
 		/>
 		<link
 			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin@5.13.3/index.min.css"
+			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin/index.min.css"
 		/>
 		<link
 			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin@5.13.3/index.min.css"
+			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin/index.min.css"
 		/>
 		<link rel="icon" href="aurora-lakeview-favicon.png" type="image/x-icon" />
 	</head>
@@ -34,12 +34,12 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "https://cdn.jsdelivr.net/npm/three@0.175.0/build/three.module.js",
-					"@photo-sphere-viewer/core": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.13.3/index.module.js",
-					"@photo-sphere-viewer/markers-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.13.3/index.module.js",
-					"@photo-sphere-viewer/virtual-tour-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/virtual-tour-plugin@5.13.3/index.module.js",
-					"@photo-sphere-viewer/gallery-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin@5.13.3/index.module.js",
-					"@photo-sphere-viewer/autorotate-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin@5.13.3/index.module.js"
+					"three": "https://cdn.jsdelivr.net/npm/three/build/three.module.js",
+					"@photo-sphere-viewer/core": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.module.js",
+					"@photo-sphere-viewer/markers-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin/index.module.js",
+					"@photo-sphere-viewer/virtual-tour-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/virtual-tour-plugin/index.module.js",
+					"@photo-sphere-viewer/gallery-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin/index.module.js",
+					"@photo-sphere-viewer/autorotate-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin/index.module.js"
 				}
 			}
 		</script>
@@ -51,16 +51,16 @@
 			import { GalleryPlugin } from "@photo-sphere-viewer/gallery-plugin";
 			import { AutorotatePlugin } from "@photo-sphere-viewer/autorotate-plugin";
 
-			const baseUrl = "./assets/";
-			const baseUrlThumb = "./thumbs/";
-			// var panoramaName = "T1-1.JPG";
+			const baseUrl = "/assets-web/";
+			const baseUrlThumb = "/thumbs/";
+			var panoramaName = "T1-1.JPG";
 
-			const filenames = [
+			const nodes = [
 				"T1-1.JPG",
 				"T1-2.JPG",
 				"T1-3.JPG",
 				"T1-4.JPG",
-				// "T1-5.JPG",
+				"T1-5.JPG",
 				"T2-1.JPG",
 				"T2-202-1.JPG",
 				"T2-202-2.JPG",
@@ -76,12 +76,10 @@
 				"T7-2.JPG",
 				"T7-701-1.JPG",
 				"T7-701-2.JPG",
-				// "T7-702-1.JPG",
-				// "T7-702-2.JPG",
-				// "T7-702-3.JPG",
-			];
-
-			const nodes = filenames.map((filename, index) => ({
+				"T7-702-1.JPG",
+				"T7-702-2.JPG",
+				"T7-702-3.JPG",
+			].map((filename, index) => ({
 				id: (index + 1).toString(),
 				name: filename.replace(".JPG", ""),
 				panorama: baseUrl + filename,
@@ -89,23 +87,13 @@
 				caption: filename.replace(".JPG", ""),
 				links: [],
 				markers: [],
-				gps: [1,1],
+				gps: [1, 1],
 				sphereCorrection: {},
 			}));
 
-			nodes.forEach((node, index) => {
-				if (index > 0) {
-					// node.links.push({ nodeId: nodes[index - 1].id });
-				}
-
-				if (index < nodes.length - 1) {
-					// node.links.push({ nodeId: nodes[index + 1].id });
-				}
-			});
-
 			const viewer = new Viewer({
 				container: document.querySelector("#viewer"),
-				// panorama: baseUrl + panoramaName,
+				panorama: baseUrl + panoramaName,
 				navbar: "gallery caption fullscreen autorotate",
 
 				plugins: [

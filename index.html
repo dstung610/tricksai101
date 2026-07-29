@@ -1,144 +1,172 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<!-- for optimal display on high DPI devices -->
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Aurora Lakeview Corner</title>
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.13.3/index.min.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.13.3/index.min.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/virtual-tour-plugin@5.13.3/index.min.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin@5.13.3/index.min.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin@5.13.3/index.min.css"
-		/>
-		<link rel="icon" href="aurora-lakeview-favicon.png" type="image/x-icon" />
-	</head>
-	<body style="margin: 0; padding: 0">
-		<!-- the viewer container must have a defined size -->
-		<div id="viewer" style="width: 100vw; height: 100vh"></div>
+  <head>
+    <!-- for optimal display on high DPI devices -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aurora Lakeview Corner</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.13.3/index.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.13.3/index.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/virtual-tour-plugin@5.13.3/index.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin@5.13.3/index.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin@5.13.3/index.min.css"
+    />
+    <link rel="icon" href="aurora-lakeview-favicon.png" type="image/x-icon" />
+    <style>
+      /* .psv-navbar {
+              position: absolute !important;
 
-		<script type="importmap">
-			{
-				"imports": {
-					"three": "https://cdn.jsdelivr.net/npm/three@0.175.0/build/three.module.js",
-					"@photo-sphere-viewer/core": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.13.3/index.module.js",
-					"@photo-sphere-viewer/markers-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.13.3/index.module.js",
-					"@photo-sphere-viewer/virtual-tour-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/virtual-tour-plugin@5.13.3/index.module.js",
-					"@photo-sphere-viewer/gallery-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin@5.13.3/index.module.js",
-					"@photo-sphere-viewer/autorotate-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin@5.13.3/index.module.js"
-				}
-			}
-		</script>
+              top: 10px;
+              right: 5px;
+              bottom: auto !important;
+              left: auto !important;
 
-		<script type="module">
-			import { Viewer } from "@photo-sphere-viewer/core";
-			import { MarkersPlugin } from "@photo-sphere-viewer/markers-plugin";
-			import { VirtualTourPlugin } from "@photo-sphere-viewer/virtual-tour-plugin";
-			import { GalleryPlugin } from "@photo-sphere-viewer/gallery-plugin";
-			import { AutorotatePlugin } from "@photo-sphere-viewer/autorotate-plugin";
+              width: 250px;
+              height: auto;
 
-			const baseUrl = "./assets/";
-			const baseUrlThumb = "./thumbs/";
-			// var panoramaName = "T1-1.JPG";
+              display: flex;
+            } */
 
-			const filenames = [
-				"T1-1.JPG",
-				"T1-2.JPG",
-				"T1-3.JPG",
-				"T1-4.JPG",
-				// "T1-5.JPG",
-				"T2-1.JPG",
-				"T2-202-1.JPG",
-				"T2-202-2.JPG",
-				"T2-202-3.JPG",
-				"T3-301-1.JPG",
-				"T3-301-2.JPG",
-				"T3-301-3.JPG",
-				"T5-1.JPG",
-				"T5-502-1.JPG",
-				"T5-502-2.JPG",
-				"T5-502-3.JPG",
-				"T7-1.JPG",
-				"T7-2.JPG",
-				"T7-701-1.JPG",
-				"T7-701-2.JPG",
-				// "T7-702-1.JPG",
-				// "T7-702-2.JPG",
-				// "T7-702-3.JPG",
-			];
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
 
-			const nodes = filenames.map((filename, index) => ({
-				id: (index + 1).toString(),
-				name: filename.replace(".JPG", ""),
-				panorama: baseUrl + filename,
-				thumbnail: baseUrlThumb + filename.replace(".JPG", "-thumb.jpg"),
-				caption: filename.replace(".JPG", ""),
-				links: [],
-				markers: [],
-				gps: [1,1],
-				sphereCorrection: {},
-			}));
+      #viewer {
+        width: 100vw;
+        height: 100dvh;
+      }
+    </style>
+  </head>
+  <body style="margin: 0; padding: 0">
+    <!-- the viewer container must have a defined size -->
+    <div id="viewer"></div>
 
-			nodes.forEach((node, index) => {
-				if (index > 0) {
-					// node.links.push({ nodeId: nodes[index - 1].id });
-				}
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.175.0/build/three.module.js",
+          "@photo-sphere-viewer/core": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.13.3/index.module.js",
+          "@photo-sphere-viewer/markers-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.13.3/index.module.js",
+          "@photo-sphere-viewer/virtual-tour-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/virtual-tour-plugin@5.13.3/index.module.js",
+          "@photo-sphere-viewer/gallery-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin@5.13.3/index.module.js",
+          "@photo-sphere-viewer/autorotate-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin@5.13.3/index.module.js"
+        }
+      }
+    </script>
 
-				if (index < nodes.length - 1) {
-					// node.links.push({ nodeId: nodes[index + 1].id });
-				}
-			});
+    <script type="module">
+      import { Viewer } from "@photo-sphere-viewer/core";
+      import { MarkersPlugin } from "@photo-sphere-viewer/markers-plugin";
+      import { VirtualTourPlugin } from "@photo-sphere-viewer/virtual-tour-plugin";
+      import { GalleryPlugin } from "@photo-sphere-viewer/gallery-plugin";
+      import { AutorotatePlugin } from "@photo-sphere-viewer/autorotate-plugin";
 
-			const viewer = new Viewer({
-				container: document.querySelector("#viewer"),
-				// panorama: baseUrl + panoramaName,
-				navbar: "gallery caption fullscreen autorotate",
+      const baseUrl = "./assets/";
+      const baseUrlThumb = "./thumbs/";
+      // var panoramaName = "T1-1.JPG";
 
-				plugins: [
-					[
-						GalleryPlugin,
-						{
-							thumbnailSize: { width: 100, height: 100 },
-						},
-					],
-					[
-						VirtualTourPlugin,
-						{
-							positionMode: "gps",
-							renderMode: "3d",
-							nodes: nodes,
-							startNodeId: "1",
-						},
-					],
-					[
-						AutorotatePlugin,
-						{
-							autostartDelay: 2000,
-							autorotatePitch: "0.5deg",
-						},
-					],
-				],
-			});
+      const filenames = [
+        "T1-1.JPG",
+        "T1-2.JPG",
+        "T1-3.JPG",
+        "T1-4.JPG",
+        // "T1-5.JPG",
+        "T2-1.JPG",
+        "T2-202-1.JPG",
+        "T2-202-2.JPG",
+        "T2-202-3.JPG",
+        "T3-301-1.JPG",
+        "T3-301-2.JPG",
+        "T3-301-3.JPG",
+        "T5-1.JPG",
+        "T5-502-1.JPG",
+        "T5-502-2.JPG",
+        "T5-502-3.JPG",
+        "T7-1.JPG",
+        "T7-2.JPG",
+        "T7-701-1.JPG",
+        "T7-701-2.JPG",
+        // "T7-702-1.JPG",
+        // "T7-702-2.JPG",
+        // "T7-702-3.JPG",
+      ];
 
-			import { Cache } from "@photo-sphere-viewer/core";
+      const nodes = filenames.map((filename, index) => ({
+        id: (index + 1).toString(),
+        name: filename.replace(".JPG", ""),
+        panorama: baseUrl + filename,
+        thumbnail: baseUrlThumb + filename.replace(".JPG", "-thumb.jpg"),
+        caption: filename.replace(".JPG", ""),
+        links: [],
+        markers: [],
+        // gps: [1, 1],
+        // sphereCorrection: {},
+      }));
 
-			Cache.enabled = true;
-			Cache.ttl = 300;
-			Cache.maxItems = 3;
-		</script>
-	</body>
+      //   nodes.forEach((node, index) => {
+      //     if (index > 0) {
+      //       // node.links.push({ nodeId: nodes[index - 1].id });
+      //     }
+
+      //     if (index < nodes.length - 1) {
+      //       // node.links.push({ nodeId: nodes[index + 1].id });
+      //     }
+      //   });
+
+      const viewer = new Viewer({
+        container: document.querySelector("#viewer"),
+        // panorama: baseUrl + panoramaName,
+        navbar: "gallery caption fullscreen autorotate",
+
+        plugins: [
+          [
+            GalleryPlugin,
+            {
+              thumbnailSize: { width: 100, height: 100 },
+            },
+          ],
+          [
+            VirtualTourPlugin,
+            {
+              positionMode: "manual",
+              renderMode: "3d",
+              nodes: nodes,
+              startNodeId: "1",
+            },
+          ],
+          [
+            AutorotatePlugin,
+            {
+              autostartDelay: 5000,
+              autorotatePitch: "0.5deg",
+            },
+          ],
+        ],
+      });
+
+      import { Cache } from "@photo-sphere-viewer/core";
+
+      Cache.enabled = true;
+      Cache.ttl = 300;
+      Cache.maxItems = 3;
+    </script>
+  </body>
 </html>

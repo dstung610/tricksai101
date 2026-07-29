@@ -121,6 +121,28 @@
         // sphereCorrection: {},
       }));
 
+      function loadMarkerLinks(markerData) {
+        nodes.forEach((node) => {
+          const links = markerData[node.name + ".JPG"] || [];
+
+          node.links = links
+            .map((link) => ({
+              nodeId: nodes.find((n) => n.name + ".JPG" === link.to)?.id,
+              position: {
+                yaw: link.yaw,
+                pitch: link.pitch,
+              },
+            }))
+            .filter((link) => link.nodeId);
+
+          console.log(node);
+        });
+      }
+
+      const markerData = await fetch("marker-link.json").then((r) => r.json());
+
+      loadMarkerLinks(markerData);
+
       //   nodes.forEach((node, index) => {
       //     if (index > 0) {
       //       // node.links.push({ nodeId: nodes[index - 1].id });
